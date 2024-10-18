@@ -49,6 +49,10 @@ public class FooSaga : SagaStateMachineInstance
 {
     public Guid CorrelationId { get; set; }
     
-    public State CurrentState { get; set; }
+
+    // // If using Optimistic concurrency, this property is required
+    // public byte[] RowVersion { get; set; }
+    
+    public string CurrentState { get; set; }
     
 }

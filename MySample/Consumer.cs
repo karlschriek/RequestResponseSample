@@ -14,7 +14,7 @@ public class FazConsumer : IConsumer<FazRequested>
     {
         await context.RespondAsync(new FazCompleted()
         {
-            SomeValue = "faznez",  // Attach this consumer's ID
+            SomeValue = "faznez",
         });
 
     }
