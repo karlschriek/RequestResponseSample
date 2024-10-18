@@ -24,6 +24,26 @@ public class FooTests
                 x.AddConsumer<FazConsumer>();
                 x.AddSagaStateMachine<FooStateMachine, FooSaga>()
                     .InMemoryRepository();
+                
+
+                x.UsingInMemory((context, cfg) =>
+                {
+                    cfg.UseInMemoryScheduler();
+
+                    // Configure two endpoints for consumer
+                    cfg.ReceiveEndpoint($"endpoint-1", e =>
+                    {
+                        e.ConfigureConsumer<FazConsumer>(context);
+                    });
+                    cfg.ReceiveEndpoint($"endpoint-2", e =>
+                    {
+                        e.ConfigureConsumer<FazConsumer>(context);
+                    });
+
+                    // Configure all endpoints automatically for other consumers that might be in the project:
+                    cfg.ConfigureEndpoints(context);
+                });
+                
             })
             .BuildServiceProvider(true);
 
@@ -31,11 +51,11 @@ public class FooTests
 
         await harness.Start();
 
-        var correlationId = Guid.NewGuid();
+        var correlationId = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
         
         await harness.Bus.Publish(new FooRequested()
         {
-            CorrelationId = Guid.NewGuid(),
+            CorrelationId = correlationId,
         });
         
         var sagaHarness = harness.GetSagaStateMachineHarness<FooStateMachine, FooSaga>();

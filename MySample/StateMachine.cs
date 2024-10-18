@@ -19,9 +19,9 @@ public class FooStateMachine : MassTransitStateMachine<FooSaga>
                     context.Saga.CorrelationId = context.Message.CorrelationId;
                 })
                 .Request(FazRequested, 
-                    context => new FazRequested
-                    {
-                    })
+                    context => new Uri($"queue:endpoint-1"),
+                    context => new FazRequested {}
+                    )
                 .TransitionTo(FazRequested.Pending)
         );
         
