@@ -13,14 +13,11 @@ public class FooCompleted : CorrelatedBy<Guid>
     public Guid CorrelationId { get; set; }
 }
 
-public class FazRequested : CorrelatedBy<Guid>
-{
-    public Guid CorrelationId { get; set; }
+public class FazRequested {
+    
 }
 
-public class FazCompleted : CorrelatedBy<Guid>
+public class FazCompleted 
 {
-    public Guid CorrelationId { get; set; }
-
     public string SomeValue;
 }
